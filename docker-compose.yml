@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    ports:
+      - "3000:3000"
+    networks:
+      - devops-network
+
+  backend:
+    build: ./backend
+    container_name: backend_container
+    ports:
+      - "5000:5000"
+    networks:
+      - devops-network
+    volumes:
+      - backend-data:/app/logs
+
+  redis:
+    image: redis
+    container_name: redis_container
+    ports:
+      - "6379:6379"
+    networks:
+      - devops-network
+
+  nginx:
+    image: nginx
+    container_name: nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - devops-network
+
+networks:
+  devops-network:
+
+volumes:
+  backend-data:
