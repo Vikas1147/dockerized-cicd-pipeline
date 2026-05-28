@@ -1,5 +1,5 @@
 pipeline {
-agent any{
+agent any
 
 environment {
     COMPOSE_PROJECT_NAME = "devops-platform"
