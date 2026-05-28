@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 environment {
     COMPOSE_PROJECT_NAME = "devops-platform"
 }
@@ -81,6 +80,5 @@ post {
         bat 'docker ps'
     }
 }
-```
 
 }
