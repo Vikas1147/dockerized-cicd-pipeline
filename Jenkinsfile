@@ -1,6 +1,7 @@
 pipeline {
 agent any
 
+```
 environment {
     COMPOSE_PROJECT_NAME = "devops-platform"
 }
@@ -10,13 +11,22 @@ stages {
     stage('Clone Repository') {
         steps {
             git branch: 'main',
-            url: 'https://github.com/Vikas1147/dockerized-cicd-pipeline.git'
+                url: 'https://github.com/Vikas1147/dockerized-cicd-pipeline.git'
         }
     }
 
     stage('Build Docker Images') {
         steps {
             bat 'docker compose build'
+        }
+    }
+
+    stage('Cleanup Old Containers') {
+        steps {
+            bat 'docker rm -f backend_container || exit 0'
+            bat 'docker rm -f frontend_container || exit 0'
+            bat 'docker rm -f redis_container || exit 0'
+            bat 'docker rm -f nginx_container || exit 0'
         }
     }
 
@@ -71,5 +81,6 @@ post {
         bat 'docker ps'
     }
 }
+```
 
 }
